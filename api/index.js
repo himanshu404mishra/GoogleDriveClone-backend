@@ -29,7 +29,7 @@ app.use(express.urlencoded({extended: true}))
 app.use("/", indexRouter)
 app.use("/user", userRouter)
 
-app.use(express.static("public"))
+app.use(express.static(path.join(__dirname, '../public')))
 
 
 
