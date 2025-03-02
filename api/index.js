@@ -5,13 +5,13 @@ const dotenv = require("dotenv")
 
 dotenv.config()
 
-const connectToDB = require("./config/db")
+const connectToDB = require("../config/db")
 connectToDB()
 const cookieParse = require("cookie-parser")
 
 // routers
-const userRouter = require("./routes/user.routes")
-const indexRouter = require("./routes/index.routes")
+const userRouter = require("../routes/user.routes")
+const indexRouter = require("../routes/index.routes")
 
 
 const app = express()
@@ -32,6 +32,7 @@ app.use(express.static("public"))
 
 
 
-app.listen(3000, ()=>{
-	console.log("Server is runnning at http://localhost:3000")
-})
+// app.listen(8000, ()=>{
+// 	console.log("Server is runnning at http://localhost:8000")
+// })
+module.exports = app
