@@ -9,6 +9,11 @@ const {uploadToSupabase, supabase} = require("../config/supabase.config");
 
 const filesModel = require("../models/files.model");
 
+
+router.get("/", (req,res)=>{
+    res.send("Goto /home for home page, or /users/login for login page")
+})
+
 router.get("/home", authMiddleware, async (req, res) => {
     const userFiles = await filesModel.find({
         user: req.user.userId,
