@@ -1,0 +1,1 @@
+// required for firebase but since it is paid for storage service this file got empty

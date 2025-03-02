@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Home Page</title>
+        <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+
+        <link
+            href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css"
+            rel="stylesheet"
+        />
+        <link
+    href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css"
+    rel="stylesheet"
+/>
+    </head>
+    <body class="p-4 bg-gray-100 dark:bg-gray-800">
+        <button
+            class="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg cursor-pointer"
+            onclick="showPopup()"
+        >
+            Upload File
+        </button>
+        <br />
+        <div
+            class="popup hidden backdrop-blur fixed top-0 left-0 h-screen w-screen flex items-center justify-center"
+        >
+           <form id="upload-form" action="/upload" method="post" enctype="multipart/form-data">
+            <div class="flex items-center justify-center w-96">
+                <label
+                    for="dropzone-file"
+                    class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+                >
+                    <div
+                        class="flex flex-col items-center justify-center pt-5 pb-6"
+                    >
+                        <svg
+                            class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
+                            aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 20 16"
+                        >
+                            <path
+                                stroke="currentColor"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                            />
+                        </svg>
+                        <p
+                            class="mb-2 text-sm text-gray-500 dark:text-gray-400"
+                        >
+                            <span class="font-semibold">Click to upload</span>
+                            or drag and drop
+                        </p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400">
+                            SVG, PNG, JPG or GIF (MAX. 800x400px)
+                        </p>
+                    </div>
+                    <input required name="file" id="dropzone-file" type="file" class="hidden" />
+                </label>
+            </div>
+            <br>
+            <div class="w-full flex items-center justify-between">
+                <button class="inline-flex text-white bg-gray-500 border-0 py-2 px-6 focus:outline-none hover:bg-gray-600 rounded text-lg cursor-pointer">
+                    Upload
+                </button>
+                <p id="file-name" class="text-emerald-500"></p>
+            </div>
+           </form>
+           <button 
+            class="absolute top-4 right-4 text-gray-500 text-xl"
+           >
+            <i class="ri-close-large-fill font-bold text-blue-600 cursor-pointer hover:text-emerald-500" onclick="hidenPopup()"></i>
+           </button>
+        </div>
+
+        <div class="files flex mt-3 flex-col gap-2">
+            <% files.forEach(file=>{ %>
+                <div class="p-2 cursor-pointer rounded-md bg-gray-300 flex justify-between">
+                    <h1><%= file.originalName %></h1>
+                    <a class="text-blue-600 hover:text-blue-400 transition" href="/download/<%= encodeURIComponent(file.path) %>" download="<%= file.originalName %>" ><i class="ri-download-cloud-2-line"></i></a>
+                </div>
+            <% }) %>
+            
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+
+        <script>
+            function showPopup(){
+                document.querySelector(".popup").style.display = "flex"
+            }
+            function hidenPopup(){
+                document.querySelector(".popup").style.display = "none"
+                document.getElementById("upload-form").reset();
+                document.getElementById("file-name").innerHTML=``
+
+            }
+            document.getElementById("dropzone-file").addEventListener("input", function(e){
+                const fileName = e.srcElement.files[0].name;
+                document.getElementById("file-name").innerHTML=`Uploaded file: <u>${fileName}</u>`
+            })
+        </script>
+    </body>
+</html>
